@@ -1,0 +1,36 @@
+{
+  "private": true,
+  "name": "microservice-pdf",
+  "main": "entry.js",
+  "author": {
+    "email": "fabioguelfiunix@gmail.com",
+    "name": "Fabio Guelfi",
+    "url": "https://github.com/fabioguelfi"
+  },
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node entry.js",
+    "docker": "npm run docker:build && npm run docker:run",
+    "docker:build": "docker build -t totvsstore/microservice_pdf .",
+    "docker:run": "docker run -p 3000:3000 -d totvsstore/microservice_pdf",
+    "dev": "node entry.js",
+    "fmt": "prettier --write \"src/**/*.js\"",
+    "test": "jest --no-cache"
+  },
+  "dependencies": {
+    "@types/express": "^4.16.0",
+    "@types/jest": "^23.3.1",
+    "@types/supertest": "^2.0.5",
+    "body-parser": "^1.18.2",
+    "create-html": "^4.1.0",
+    "express": "^4.16.3",
+    "fs-extra": "^7.0.0",
+    "handlebars": "^4.0.11",
+    "jest": "^23.5.0",
+    "multer": "^1.4.1",
+    "prettier": "^1.14.2",
+    "puppeteer": "^1.10.0",
+    "supertest": "^3.1.0",
+    "unzip-stream": "^0.3.0"
+  }
+}
