@@ -1,0 +1,29 @@
+######################### PDF ########################
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: pdf-api
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pdf-api
+    spec:
+      containers:
+      - name: pdf-api
+        image: us.gcr.io/totvs-store/pdf:IMAGE_VERSION
+        imagePullPolicy: Always
+        
+        readinessProbe:
+          httpGet:
+            port: 3000
+            path: /api/stats/health
+            scheme: HTTP
+          initialDelaySeconds: 3
+          periodSeconds: 5
+          successThreshold: 2
+          failureThreshold: 1
+          timeoutSeconds: 1
+          
