@@ -25,6 +25,9 @@ router.route('/pdf').post(upload.single('template'), async (req, res) => {
         deleteFolderRecursive(`${__dirname}/templates/${filename}`)
     })
 })
+
+router.route('/stats/health').get((req, res) => res.sendStatus(200))
+
 server.use('/api', router)
 
 module.exports = server
