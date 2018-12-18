@@ -46,7 +46,7 @@ const generatePDF = async (templateName, payloads) => {
     payloads = JSON.parse(payloads)
     await Promise.all(payloads.objects.map(async (object) => {
 
-        const compile = async (templateName, object) => {
+        const compile = async (templateName, object) => { 
             const filePath = await path.join(process.cwd(), `src/templates/${templateName}`, `index.hbs`)
             const html = await fsExtra.readFile(filePath, 'utf-8')
             return hbs.compile(html)(object)
@@ -57,7 +57,7 @@ const generatePDF = async (templateName, payloads) => {
 
                 i = 0
 
-                const browser = await puppeteer.launch({ ignoreHTTPSErrors: true, headless: true })
+                const browser = await puppeteer.launch({ ignoreHTTPSErrors: true, headless: true, args: ['--no-sandbox'] })
                 const page = await browser.newPage()
 
                 const content = await compile(templateName, object)
