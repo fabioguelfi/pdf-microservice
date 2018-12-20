@@ -19,11 +19,12 @@ const resolveStream = (readStream, writeStream, eventFinish = 'finish') => {
 }
 
 const writeTemplate = async (directory) => {
-    const _path = path.resolve(`${__dirname}/../templates/`)
     const readFs = fs.createReadStream(directory)
     const readFsPath = readFs.path
     const basename = path.basename(readFsPath)
-    fs.mkdirSync(`${_path}/${basename}`)
+
+    const _path = path.resolve(`${process.env.TEMP}`)
+    fs.mkdirSync(`${_path}/tmp/${basename}`)
     await resolveStream(readFs, unzip.Extract({ path: `${_path}/${basename}` }), 'close')
 }
 
@@ -46,8 +47,8 @@ const generatePDF = async (templateName, payloads) => {
     payloads = JSON.parse(payloads)
     await Promise.all(payloads.objects.map(async (object) => {
 
-        const compile = async (templateName, object) => { 
-            const filePath = await path.join(process.cwd(), `src/templates/${templateName}`, `index.hbs`)
+        const compile = async (templateName, object) => {
+            const filePath = await path.join(process.cwd(), `${process.env.TEMP}/${templateName}`, `index.hbs`)
             const html = await fsExtra.readFile(filePath, 'utf-8')
             return hbs.compile(html)(object)
         }
@@ -69,11 +70,11 @@ const generatePDF = async (templateName, payloads) => {
                     body: content
                 })
 
-                fs.writeFileSync(`${__dirname}/../templates/${templateName}/index.html`, html)
-                await page.goto(`file://${__dirname}/../templates/${templateName}/index.html`)
+                fs.writeFileSync(`${process.env.TEMP}/${templateName}/index.html`, html)
+                await page.goto(`file://${process.env.TEMP}/${templateName}/index.html`)
                 await page.emulateMedia('screen')
                 await page.pdf({
-                    path: path.resolve(`${__dirname}/../templates/${templateName}/document.pdf`),
+                    path: path.resolve(`${process.env.TEMP}/${templateName}/document.pdf`),
                     format: 'A4',
                     printBackground: true,
                     waitUntil: 'networkidle',
@@ -89,6 +90,7 @@ const generatePDF = async (templateName, payloads) => {
             }
 
         })()
+
 
     }))
 
