@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const fs = require('fs')
 const multer = require('multer')
-const upload = multer({ dest: `${process.env.TMP}/tmp` })
+const upload = multer({ dest: `${process.env.TEMP}/tmp` })
 const { writeTemplate, generatePDF, deleteFolderRecursive } = require('./services/pdf.service')
 const server = express()
 const router = express.Router()
@@ -19,9 +19,9 @@ router.route('/pdf').post(upload.single('template'), async (req, res) => {
     await writeTemplate(path)
     await generatePDF(filename, req.body.payloads)
     await res.contentType("application/pdf")
-    res.download(`${process.env.TMP}/${filename}/document.pdf`, 'template', (e) => {
+    res.download(`${process.env.TEMP}/${filename}/document.pdf`, 'template', (e) => {
         fs.unlinkSync(path)
-        deleteFolderRecursive(`${process.env.TMP}/${filename}`)
+        deleteFolderRecursive(`${process.env.TEMP}/${filename}`)
     })
 })
 

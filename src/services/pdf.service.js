@@ -24,7 +24,6 @@ const writeTemplate = async (directory) => {
     const basename = path.basename(readFsPath)
 
     const _path = path.resolve(`${process.env.TEMP}`)
-    fs.mkdirSync(`${_path}/tmp/${basename}`)
     await resolveStream(readFs, unzip.Extract({ path: `${_path}/${basename}` }), 'close')
 }
 
@@ -48,7 +47,7 @@ const generatePDF = async (templateName, payloads) => {
     await Promise.all(payloads.objects.map(async (object) => {
 
         const compile = async (templateName, object) => {
-            const filePath = await path.join(process.cwd(), `${process.env.TEMP}/${templateName}`, `index.hbs`)
+            const filePath = await path.join(`${process.env.TEMP}/${templateName}`, `index.hbs`)
             const html = await fsExtra.readFile(filePath, 'utf-8')
             return hbs.compile(html)(object)
         }
