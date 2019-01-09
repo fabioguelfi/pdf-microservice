@@ -3,17 +3,17 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: pdf-api
+  name: tiger
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: pdf-api
+        app: tiger
     spec:
       containers:
-      - name: pdf-api
-        image: us.gcr.io/totvs-store/pdf:IMAGE_VERSION
+      - name: tiger
+        image: us.gcr.io/totvs-store/tiger:IMAGE_VERSION
         imagePullPolicy: Always
         
         readinessProbe:
