@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: tiger
-        image: us.gcr.io/totvs-store/pdf:IMAGE_VERSION
+        image: us.gcr.io/totvs-store/tiger:IMAGE_VERSION
         imagePullPolicy: Always
         
         readinessProbe:
