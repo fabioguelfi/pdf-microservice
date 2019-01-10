@@ -81,7 +81,10 @@ const generatePDF = async (templateName, payloads) => {
 
                 i++
 
-                console.log('done!')
+                console.log(
+                    `### DONE ###
+                    ${payloads}
+                    ### --- ###`)
                 await browser.close()
                 // process.exit()
             } catch (e) {
